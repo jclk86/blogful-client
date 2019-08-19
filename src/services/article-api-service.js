@@ -4,9 +4,7 @@ import TokenService from "../services/token-service";
 const ArticleApiService = {
   getArticles() {
     return fetch(`${config.API_ENDPOINT}/articles`, {
-      headers: {
-        authorization: `basic ${TokenService.getAuthToken()}`
-      }
+      headers: {}
     }).then(res =>
       !res.ok ? res.json().then(e => Promise.reject(e)) : res.json()
     );
@@ -14,7 +12,7 @@ const ArticleApiService = {
   getArticle(articleId) {
     return fetch(`${config.API_ENDPOINT}/articles/${articleId}`, {
       headers: {
-        authorization: `basic ${TokenService.getAuthToken()}`
+        authorization: `bearer ${TokenService.getAuthToken()}`
       }
     }).then(res =>
       !res.ok ? res.json().then(e => Promise.reject(e)) : res.json()
@@ -23,7 +21,7 @@ const ArticleApiService = {
   getArticleComments(articleId) {
     return fetch(`${config.API_ENDPOINT}/articles/${articleId}/comments`, {
       headers: {
-        authorization: `basic ${TokenService.getAuthToken()}`
+        authorization: `bearer ${TokenService.getAuthToken()}`
       }
     }).then(res =>
       !res.ok ? res.json().then(e => Promise.reject(e)) : res.json()
@@ -33,7 +31,8 @@ const ArticleApiService = {
     return fetch(`${config.API_ENDPOINT}/comments`, {
       method: "POST",
       headers: {
-        "content-type": "application/json"
+        "content-type": "application/json",
+        authorization: `bearer ${TokenService.getAuthToken()}`
       },
       body: JSON.stringify({
         article_id: articleId,
